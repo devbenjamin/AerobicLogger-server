@@ -44,18 +44,11 @@ router.post('/create', function (req, res) {
     )
 })
 
-router.get('/:id', function(req, res) {
-  Slogan
-  .findOne({ where: { id: req.params.id }})
-      .then(slogan => res.status(200).json(slogan))
-      .catch(err => res.status(500).json({ error: err }))
-})
-
-
 router.get('/getAll', function(req, res){
   Slogan
   .findAll({
-    attributes: [ 'title']
+    attributes: [ 'title', 'id']
+
   })
   .then(
     function findAllSuccess(data) {
@@ -67,6 +60,29 @@ router.get('/getAll', function(req, res){
     }
   );
 });
+
+router.delete('/:id', function(req, res){
+	var dataID = req.params.id;
+
+	Log.destroy({ where: {id: dataID }}).then(
+		function deleteLogSuccess(data){
+			res.send("Slogan Deleted");
+		},
+		function deleteLogError(err){
+			res.send(500, err.message)
+		}
+	)
+})
+
+router.get('/:id', function(req, res) {
+  Slogan
+  .findOne({ where: { id: req.params.id }})
+      .then(slogan => res.status(200).json(slogan))
+      .catch(err => res.status(500).json({ error: err }))
+})
+
+
+
 
 // router.post('/slogannnnn', function (req, res) {
 //   let testData = req.body.testdata.item;
