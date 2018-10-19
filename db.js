@@ -1,8 +1,9 @@
 require ('dotenv').config()
 const Sequelize = require('sequelize'); //Import the Sequelize package
 
-const sequelize = new Sequelize(process.env.DATABASE_URL, 'postgres', process.env.PASS, { 
-    dialect: 'postgres' 
+const sequelize = new Sequelize('aerobiclog', 'postgres', process.env.PASS, { 
+  host: 'localhost',
+  dialect: 'postgres' 
 })
 
 sequelize.authenticate().then( 

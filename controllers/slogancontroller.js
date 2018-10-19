@@ -6,11 +6,13 @@ let Slogan = sequelize.import('../models/slogan');
 // router.post('/slogan', function (req, res) {
 // let sloganData = req.body.slogandata.item;
 
+
+
 router.get('/get', function (req, res) {
   let newTitle = req.body.title;
   res.send('hi from slogan')
   Slogan
-    .create({
+    .findOne({
       title: newTitle
     })
     .then(
@@ -61,10 +63,10 @@ router.get('/getAll', function(req, res){
   );
 });
 
-router.delete('/:id', function(req, res){
+router.delete('/delete/:id', function(req, res){
 	var dataID = req.params.id;
 
-	Log.destroy({ where: {id: dataID }}).then(
+	Slogan.destroy({ where: {id: dataID }}).then(
 		function deleteLogSuccess(data){
 			res.send("Slogan Deleted");
 		},
@@ -81,6 +83,15 @@ router.get('/:id', function(req, res) {
       .catch(err => res.status(500).json({ error: err }))
 })
 
+router.put('/update/:id', (req, res) => {
+  if(!req.errors) {
+    Slogan.update(req.body.slogan, {where: {id: req.params.id}})
+      .then(slogan => res.status(200).json(slogan))
+      .catch(err => res.status(500).json({ error: err }))
+  } else {
+    res.status(500).json(req.errors)
+  }
+})
 
 
 

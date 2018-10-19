@@ -6,14 +6,20 @@ const user = require('./controllers/usercontroller')
 const sequelize = require('./db')
 const bodyParser = require('body-parser')
 const slogan = require('./controllers/slogancontroller')
-const sessionDataModel = require('./models/sessionData')
-const sloganModel = require('./models/slogan')
-const userModel = require('./models/user')
-// const sessionData = require('./controllers/sessiondatacontroller')
+// const sessionDataModel = require('./models/sessionData')
+// const sloganModel = require('./models/slogan')
+// const userModel = require('./models/user')
+const sessiondata = require('./controllers/sessiondatacontroller')
 const port = 3000
 // const sessionData = sessionDataModel(sequelize, Sequelize) 
 // const slogan = sloganModel(sequelize, Sequelize)
 // const user = userModel(sequelize, Sequelize)
+
+app.use(bodyParser.json())
+app.use(require('./middleware/headers'))
+app.use('/slogan', slogan)
+app.use('/user', user)
+app.use('/sessiondata', sessiondata)
 
 
 // sequelize.sync({ force:true })
@@ -26,11 +32,6 @@ sequelize.sync()
 // slogan.belongsToMany(user, {through: 'sessionData'}) // users have access to slogans, only through sessionDta, because a user never needs slogans ERXCEPT in sessions
 
 //sessionData.hasMany(slogan) 
-app.use(bodyParser.json())
-app.use(require('./middleware/headers'))
-app.use('/slogan', slogan)
-app.use('/user', user)
-// app.use('/sessiondata', sessionData)
 
 
 // app.use(require('./middleware/validate-session'))
